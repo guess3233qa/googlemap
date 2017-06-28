@@ -1,0 +1,27 @@
+#coding=utf8
+import geocoder
+import MySQLdb
+
+db = MySQLdb.connect(host="localhost",user="root",passwd="ttmaker",db="opendata",charset='utf8')
+sql = "select Location from 03_WChild where Lat = 0 and Lng = 0 "
+cursor = db.cursor()
+cursor.execute(sql)
+result = cursor.fetchall()
+
+for i in result:
+	g = geocoder.google(i[0])
+
+
+	if g.lat == None and g.lng == None:
+		l lat = str(g.lat)
+                lng = str(g.lng)at = str(g.lat)
+		lng = str(g.lng)
+		lat = '0'
+		lng = '0'
+
+	sql = "UPDATE 03_WChild SET Lat = " + lat + " , Lng = " + lng + " WHERE Location = " + '"' + i[0] + '"'
+	cursor.execute(sql)
+	db.commit()
+	print (sql)
+
+db.close
